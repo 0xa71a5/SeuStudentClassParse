@@ -90,7 +90,7 @@ def getPage(cardNumber,academicYear):
 
 def task(start,end):
     global counter
-    sql=MySQLdb.connect("localhost","root","neverorforever","www",charset="utf8")
+    sql=MySQLdb.connect("localhost","root","****","www",charset="utf8")
     cur=sql.cursor()
     #end=start+50
     for x in range(start,end):
