@@ -1,7 +1,6 @@
 #*-* coding:utf-8 *-*
 # author: 0xa71a5
 # date:   2017/02/20
-
 from bs4 import BeautifulSoup 
 import sys
 import urllib
@@ -11,6 +10,7 @@ import MySQLdb
 import thread
 import threadpool
 import time
+import SendMail
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -88,11 +88,11 @@ def getPage(cardNumber,academicYear):
         print e
     return content
 
-def task(start):
+def task(start,end):
     global counter
-    sql=MySQLdb.connect("localhost","root","*****","www",charset="utf8")
+    sql=MySQLdb.connect("localhost","root","neverorforever","www",charset="utf8")
     cur=sql.cursor()
-    end=start+50
+    #end=start+50
     for x in range(start,end):
         try:
             print counter
@@ -100,6 +100,7 @@ def task(start):
             counter=counter+1
         except Exception as e:
             print e
+    SendMail.SendMail("497425817@qq.com","Inform",str(start)+"-"+str(end)+" Finished!")
     cur.close()
     sql.close()
 def Timer():
@@ -111,13 +112,36 @@ def Timer():
 #大二213150001-213153986
 #大三213140001-213143947
 #大四213130001-213134219
+thread.start_new_thread(task,(213160001,213161500))
+time.sleep(0.7)
+thread.start_new_thread(task,(213161500,213163000))
+time.sleep(0.7)
+thread.start_new_thread(task,(213163000,213163968))
+time.sleep(0.7)
+thread.start_new_thread(task,(213150001,213151500))
+time.sleep(0.7)
+thread.start_new_thread(task,(213151500,213153000))
+time.sleep(0.7)
+thread.start_new_thread(task,(213153000,213153986))
+time.sleep(0.7)
+thread.start_new_thread(task,(213140001,213141500))
+time.sleep(0.7)
+thread.start_new_thread(task,(213141500,213143000))
+time.sleep(0.7)
+thread.start_new_thread(task,(213143000,213143968))
+while True:
+   time.sleep(10)
+   print "Sys beep"
 
+
+'''
 taskParamters=[x for x in range(213160001,213163967,50)]+[x for x in range(213150001,213153986,50)]+[x for x in range(213140001,213143947,50)]+[x for x in range(213130001,213134219,50)]
 pool = threadpool.ThreadPool(8) 
 requests = threadpool.makeRequests(task, taskParamters) 
 [pool.putRequest(req) for req in requests] 
 pool.wait() 
 print "Done!"
+'''
 
 
 
