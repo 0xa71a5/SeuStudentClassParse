@@ -35,9 +35,10 @@ def parseToSql(cont):#这个函数第二步解析，把上午或者下午，一�
         retList=[]
         for x in range(0,divNum):
             className=cont[3*x+0]
+            classRoom=cont[3*x+2].replace("九龙湖教","J").replace("一","1").replace("二","2").replace("三","3").replace("四","4").replace("五","5").replace("六","6").replace("七","7").replace("八","8")
             tmp=re.findall(r"\d+",cont[3*x+1])
             startWeek=tmp[0];endWeek=tmp[1];startPeriod=tmp[2];endPeriod=tmp[3]
-            retList.append([className,startWeek,endWeek,startPeriod,endPeriod])
+            retList.append([className,startWeek,endWeek,startPeriod,endPeriod,classRoom])
         return retList
     except Exception as e:print e;return []
 def insertIntoDatabase(result,weekday,stuName,cardNumber,cur):
@@ -45,7 +46,7 @@ def insertIntoDatabase(result,weekday,stuName,cardNumber,cur):
     #global sql
     command=""
     for items in result:
-        command="insert into StudentClass (stuName,cardNumber,className,weekday,startWeek,endWeek,startPeriod,endPeriod) values('{}','{}','{}',{},{},{},{},{})".format(stuName,str(cardNumber),items[0],weekday,items[1],items[2],items[3],items[4])
+        command="insert into StudentClass (stuName,cardNumber,className,weekday,startWeek,endWeek,startPeriod,endPeriod,classRoom) values('{}','{}','{}',{},{},{},{},{},'{}')".format(stuName,str(cardNumber),items[0],weekday,items[1],items[2],items[3],items[4],items[5])
         #print command#这是插入数据库的命令
         try:
             cur.execute(command)#这里是你要自己加的插入数据库的语言
